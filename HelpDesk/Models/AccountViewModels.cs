@@ -65,6 +65,10 @@ namespace HelpDesk.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "Nombre Completo")]
+        public string Name { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Correo electrónico")]
         public string Email { get; set; }
