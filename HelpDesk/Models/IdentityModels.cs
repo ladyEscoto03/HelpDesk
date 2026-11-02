@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace HelpDesk.Models
 {
@@ -15,8 +16,10 @@ namespace HelpDesk.Models
         public DateTime CreatedAt { get; set; }
         public bool IsActive { get; set; }
 
+        [InverseProperty("Requester")]
         public ICollection<Ticket> RequestedTickets { get; set; }
 
+        [InverseProperty("AssignedUser")]
         public ICollection<Ticket> AssignedTickets { get; set; }
 
         public ICollection<Comment> Comments { get; set; }

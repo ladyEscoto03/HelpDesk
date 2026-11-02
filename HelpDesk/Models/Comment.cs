@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -14,9 +15,13 @@ namespace HelpDesk.Models
         public DateTime CreatedDate { get; set; }
 
         public int TicketId { get; set; }
+
+        [ForeignKey("TicketId")]
         public Ticket Ticket { get; set; }
 
         public string UserId { get; set; }
+
+        [ForeignKey("UserId")]
         public ApplicationUser User { get; set; }
 
     }
