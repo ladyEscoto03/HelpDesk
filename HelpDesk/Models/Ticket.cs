@@ -1,0 +1,30 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+
+namespace HelpDesk.Models
+{
+    public class Ticket
+    {
+        [Key]
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
+        public string Category { get; set; }
+
+
+        public int TicketStatusId { get; set; }
+        public TicketStatus TicketStatus { get; set; }
+
+        public string RequesterId { get; set; }
+        public ApplicationUser Requester { get; set; }
+
+        public string AssignedUserId { get; set; }
+        public ApplicationUser AssignedUser{ get; set; }
+
+    }
+}

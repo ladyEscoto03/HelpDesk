@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -13,6 +14,11 @@ namespace HelpDesk.Models
         public string Name { get; set; }
         public DateTime CreatedAt { get; set; }
         public bool IsActive { get; set; }
+
+        public ICollection<Ticket> RequestedTickets { get; set; }
+
+        public ICollection<Ticket> AssignedTickets { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Tenga en cuenta que authenticationType debe coincidir con el valor definido en CookieAuthenticationOptions.AuthenticationType
