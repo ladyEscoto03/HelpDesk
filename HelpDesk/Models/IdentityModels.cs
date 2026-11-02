@@ -36,6 +36,9 @@ namespace HelpDesk.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
+        public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<TicketStatus> TicketStatuses { get; set; }
 
         public static ApplicationDbContext Create()
         {
