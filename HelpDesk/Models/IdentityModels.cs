@@ -19,6 +19,8 @@ namespace HelpDesk.Models
 
         public ICollection<Ticket> AssignedTickets { get; set; }
 
+        public ICollection<Comment> Comments { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Tenga en cuenta que authenticationType debe coincidir con el valor definido en CookieAuthenticationOptions.AuthenticationType

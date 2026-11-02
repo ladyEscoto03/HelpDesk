@@ -26,5 +26,10 @@ namespace HelpDesk.Models
         public string AssignedUserId { get; set; }
         public ApplicationUser AssignedUser{ get; set; }
 
+
+
+        public ICollection<Comment> Comments { get; set; }
+
+
     }
 }
