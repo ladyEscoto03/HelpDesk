@@ -20,7 +20,7 @@ namespace HelpDesk.Models
 
         public int TicketStatusId { get; set; }
 
-        [ForeignKey("StatusId")]
+        [ForeignKey("TicketStatusId")]
         public TicketStatus TicketStatus { get; set; }
 
         public string RequesterId { get; set; }
