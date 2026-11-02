@@ -39,9 +39,9 @@ namespace HelpDesk.Controllers
         // GET: Tickets/Create
         public ActionResult Create()
         {
-            ViewBag.AssignedUserId = new SelectList(db.ApplicationUsers, "Id", "Name");
-            ViewBag.RequesterId = new SelectList(db.ApplicationUsers, "Id", "Name");
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name");
+            ViewBag.AssignedUserId = new SelectList(db.Users, "Id", "Name");
+            ViewBag.RequesterId = new SelectList(db.Users, "Id", "Name");
+            ViewBag.TicketStatusId = new SelectList(db.Users, "Id", "Name");
             return View();
         }
 
@@ -59,9 +59,9 @@ namespace HelpDesk.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AssignedUserId = new SelectList(db.ApplicationUsers, "Id", "Name", ticket.AssignedUserId);
-            ViewBag.RequesterId = new SelectList(db.ApplicationUsers, "Id", "Name", ticket.RequesterId);
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name", ticket.TicketStatusId);
+            ViewBag.AssignedUserId = new SelectList(db.Users, "Id", "Name", ticket.AssignedUserId);
+            ViewBag.RequesterId = new SelectList(db.Users, "Id", "Name", ticket.RequesterId);
+            ViewBag.TicketStatusId = new SelectList(db.Users, "Id", "Name", ticket.TicketStatusId);
             return View(ticket);
         }
 
@@ -77,9 +77,9 @@ namespace HelpDesk.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AssignedUserId = new SelectList(db.ApplicationUsers, "Id", "Name", ticket.AssignedUserId);
-            ViewBag.RequesterId = new SelectList(db.ApplicationUsers, "Id", "Name", ticket.RequesterId);
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name", ticket.TicketStatusId);
+            ViewBag.AssignedUserId = new SelectList(db.Users, "Id", "Name", ticket.AssignedUserId);
+            ViewBag.RequesterId = new SelectList(db.Users, "Id", "Name", ticket.RequesterId);
+            ViewBag.TicketStatusId = new SelectList(db.Users, "Id", "Name", ticket.TicketStatusId);
             return View(ticket);
         }
 
@@ -96,9 +96,9 @@ namespace HelpDesk.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.AssignedUserId = new SelectList(db.ApplicationUsers, "Id", "Name", ticket.AssignedUserId);
-            ViewBag.RequesterId = new SelectList(db.ApplicationUsers, "Id", "Name", ticket.RequesterId);
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name", ticket.TicketStatusId);
+            ViewBag.AssignedUserId = new SelectList(db.Users, "Id", "Name", ticket.AssignedUserId);
+            ViewBag.RequesterId = new SelectList(db.Users, "Id", "Name", ticket.RequesterId);
+            ViewBag.TicketStatusId = new SelectList(db.Users, "Id", "Name", ticket.TicketStatusId);
             return View(ticket);
         }
 
