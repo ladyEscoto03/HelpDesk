@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using HelpDesk.Models;
+using Microsoft.AspNet.Identity;
 
 namespace HelpDesk.Controllers
 {
@@ -49,10 +50,12 @@ namespace HelpDesk.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Description,CreatedDate,TicketId,UserId")] Comment comment)
+        public ActionResult Create([Bind(Include = "Id,Description,TicketId")] Comment comment)
         {
             if (ModelState.IsValid)
             {
+                comment.UserId=User.Identity.GetUserId();
+                comment.CreatedDate = DateTime.Now;
                 db.Comments.Add(comment);
                 db.SaveChanges();
                 return RedirectToAction("Index");
