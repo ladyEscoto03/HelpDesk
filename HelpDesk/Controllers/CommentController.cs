@@ -38,10 +38,17 @@ namespace HelpDesk.Controllers
         }
 
         // GET: Comment/Create
-        public ActionResult Create()
+        public ActionResult Create(int ticketId)
         {
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title");
             ViewBag.UserId = new SelectList(db.Users, "Id", "Name");
+
+            Comment comment = new Comment();
+            comment.TicketId = ticketId;
+            comment.CreatedDate = DateTime.Now;
+            comment.UserId=User.Identity.GetUserId();
+
+
             return PartialView();
         }
 
