@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using HelpDesk.Models;
+using Microsoft.AspNet.Identity;
 
 namespace HelpDesk.Controllers
 {
@@ -50,10 +51,13 @@ namespace HelpDesk.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Description,CreatedDate,UpdatedDate,Category,TicketStatusId,RequesterId,AssignedUserId")] Ticket ticket)
+        public ActionResult Create([Bind(Include = "Id,Title,Description,Category")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
+                ticket.CreatedDate = DateTime.Now;
+                ticket.TicketStatusId = 1;
+                ticket.RequesterId= User.Identity.GetUserId();
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
                 return RedirectToAction("Index");
