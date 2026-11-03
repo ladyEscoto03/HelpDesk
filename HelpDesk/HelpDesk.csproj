@@ -179,6 +179,10 @@
     <Compile Include="Migrations\202611020109280_InitialCreate.Designer.cs">
       <DependentUpon>202611020109280_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202611031925258_UpdateTicketModel.cs" />
+    <Compile Include="Migrations\202611031925258_UpdateTicketModel.Designer.cs">
+      <DependentUpon>202611031925258_UpdateTicketModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -299,6 +303,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202611020109280_InitialCreate.resx">
       <DependentUpon>202611020109280_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202611031925258_UpdateTicketModel.resx">
+      <DependentUpon>202611031925258_UpdateTicketModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
