@@ -18,7 +18,8 @@ namespace HelpDesk.Controllers
         // GET: Tickets
         public ActionResult Index()
         {
-            var tickets = db.Tickets.Include(t => t.AssignedUser).Include(t => t.Requester).Include(t => t.TicketStatus);
+            var userId = User.Identity.GetUserId();
+            var tickets = db.Tickets.Include(t => t.AssignedUser).Include(t => t.Requester).Include(t => t.TicketStatus).Where(t=>t.RequesterId==userId);
             return View(tickets.ToList());
         }
 
