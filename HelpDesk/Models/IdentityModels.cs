@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Security.Claims;
@@ -12,8 +13,13 @@ namespace HelpDesk.Models
     // Para agregar datos de perfil del usuario, agregue más propiedades a su clase ApplicationUser. Visite https://go.microsoft.com/fwlink/?LinkID=317594 para obtener más información.
     public class ApplicationUser : IdentityUser
     {
+        [Display(Name = "Nombre Completo")]
         public string Name { get; set; }
+
+        [Display(Name = "Fecha de registro")]
         public DateTime CreatedAt { get; set; }
+
+        [Display(Name = "Activo")]
         public bool IsActive { get; set; }
 
         [InverseProperty("Requester")]

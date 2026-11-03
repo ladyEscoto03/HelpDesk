@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
@@ -10,8 +11,10 @@ namespace HelpDesk.Models
     {
         public int Id { get; set; }
 
+        [Display(Name = "Descripción")]
         public string Description { get; set; }
-        
+
+        [Display(Name = "Fecha de registro")]
         public DateTime CreatedDate { get; set; }
 
         public int TicketId { get; set; }

@@ -10,6 +10,8 @@ namespace HelpDesk.Models
     {
         [Key]
         public int Id { get; set; }
+
+        [Display(Name = "Estado")]
         public string Name { get; set; }
 
         public ICollection<Ticket> Tickets { get; set; }
