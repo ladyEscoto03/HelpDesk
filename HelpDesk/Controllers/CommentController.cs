@@ -40,7 +40,7 @@ namespace HelpDesk.Controllers
         public ActionResult Create()
         {
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title");
-            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "Name");
+            ViewBag.UserId = new SelectList(db.Users, "Id", "Name");
             return View();
         }
 
@@ -59,7 +59,7 @@ namespace HelpDesk.Controllers
             }
 
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", comment.TicketId);
-            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "Name", comment.UserId);
+            ViewBag.UserId = new SelectList(db.Users, "Id", "Name", comment.UserId);
             return View(comment);
         }
 
@@ -76,7 +76,7 @@ namespace HelpDesk.Controllers
                 return HttpNotFound();
             }
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", comment.TicketId);
-            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "Name", comment.UserId);
+            ViewBag.UserId = new SelectList(db.Users, "Id", "Name", comment.UserId);
             return View(comment);
         }
 
@@ -94,7 +94,7 @@ namespace HelpDesk.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", comment.TicketId);
-            ViewBag.UserId = new SelectList(db.ApplicationUsers, "Id", "Name", comment.UserId);
+            ViewBag.UserId = new SelectList(db.Users, "Id", "Name", comment.UserId);
             return View(comment);
         }
 
