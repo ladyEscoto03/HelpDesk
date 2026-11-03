@@ -42,7 +42,7 @@ namespace HelpDesk.Controllers
         {
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title");
             ViewBag.UserId = new SelectList(db.Users, "Id", "Name");
-            return View();
+            return PartialView();
         }
 
         // POST: Comment/Create

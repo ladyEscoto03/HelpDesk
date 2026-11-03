@@ -9,6 +9,41 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+
+
+<button type="button" class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#modalComentario">
+    <i class="bi bi-plus-circle"></i> Nuevo comentario
+</button>
+
+<div class="modal fade" id="modalComentario" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow">
+
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">
+                    <i class="bi bi-chat-left-text"></i>
+                    Crear comentario
+                </h5>
+
+                <button type="button" class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body p-4" id="contenidoComentario">
+                <div class="text-center">
+                    <div class="spinner-border text-primary"></div>
+                    <p class="mt-2">Cargando formulario...</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 <table class="table">
     <tr>
         <th>
@@ -32,32 +67,45 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Requester.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Category)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TicketStatus.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Requester.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>
+
+@section Scripts {
+
+    <script>
+        $('#modalComentario').on('show.bs.modal', function () {
+
+            $('#contenidoComentario').load('@Url.Action("Create", "Comment")');
+
+        });
+    </script>
+
+}
