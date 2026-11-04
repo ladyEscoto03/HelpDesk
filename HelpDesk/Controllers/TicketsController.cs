@@ -99,19 +99,24 @@ namespace HelpDesk.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "TicketStatusId,AssignedUserId")] Ticket ticket)
+
+        public ActionResult Edit( Ticket ticket)
         {
             if (ModelState.IsValid)
             {
+                var ticketDb = db.Tickets.Find(ticket.Id);
+                ticket.UpdatedDate = DateTime.Now;
 
-                ticket.UpdatedDate= DateTime.Now;
-                db.Entry(ticket).State = EntityState.Modified;
+                ticketDb.AssignedUserId = ticket.AssignedUserId;
+                ticketDb.TicketStatusId = ticket.TicketStatusId;
+                ticketDb.UpdatedDate = DateTime.Now;
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             ViewBag.AssignedUserId = new SelectList(db.Users, "Id", "Name", ticket.AssignedUserId);
             ViewBag.RequesterId = new SelectList(db.Users, "Id", "Name", ticket.RequesterId);
-            ViewBag.TicketStatusId = new SelectList(db.Users, "Id", "Name", ticket.TicketStatusId);
+            ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusId);
             return View(ticket);
         }
 
