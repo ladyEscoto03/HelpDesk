@@ -85,7 +85,7 @@ namespace HelpDesk.Controllers
             ViewBag.AssignedUserId = new SelectList(db.Users, "Id", "Name", ticket.AssignedUserId);
             ViewBag.RequesterId = new SelectList(db.Users, "Id", "Name", ticket.RequesterId);
             ViewBag.TicketStatusId = new SelectList(db.Users, "Id", "Name", ticket.TicketStatusId);
-            return View(ticket);
+            return PartialView(ticket);
         }
 
         // POST: Tickets/Edit/5
