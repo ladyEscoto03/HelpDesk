@@ -182,10 +182,10 @@
 
         $('#EditTicket').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
-            var ticketId = button.data('ticket-id');
+            var id = button.data('ticket-id');
 
             $.get('@Url.Action("Edit", "Tickets")',
-                { id: ticketId },
+                { id: id },
                 function(data) {
                     $('#EditTicketContent').html(data);
                 }
