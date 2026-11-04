@@ -12,7 +12,7 @@
 
 
 
-<div class="modal fade" id="CreateComentario" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="CreateComment" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content border-0 shadow">
 
@@ -26,7 +26,7 @@
                         data-bs-dismiss="modal"></button>
             </div>
 
-            <div class="modal-body p-4" id="CreateCommentComment">
+            <div class="modal-body p-4" id="CreateCommentContent">
                 <div class="text-center">
                     <div class="spinner-border text-primary"></div>
                     <p class="mt-2">Cargando formulario...</p>
@@ -39,7 +39,7 @@
 
 
 
-<div class="modal fade" id="IndexComentario" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="IndexComment" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content border-0 shadow">
 
@@ -53,7 +53,7 @@
                         data-bs-dismiss="modal"></button>
             </div>
 
-            <div class="modal-body p-4" id="IndexCommentComment">
+            <div class="modal-body p-4" id="IndexCommentContent">
                 <div class="text-center">
                     <div class="spinner-border text-primary"></div>
                     <p class="mt-2">Cargando comentarios...</p>
@@ -117,14 +117,14 @@
                 -->
                 <button type="button" class="btn btn-primary"
                         data-bs-toggle="modal"
-                        data-bs-target="#CreateComentario"
+                        data-bs-target="#CreateComment"
                         data-ticket-id="@item.Id">
                     <i class="bi bi-plus-circle"></i> Nuevo comentario
                 </button>
 
                 <button type="button" class="btn btn-primary"
                         data-bs-toggle="modal"
-                        data-bs-target="#IndexComentario"
+                        data-bs-target="#IndexComment"
                         data-ticket-id="@item.Id">
                     <i class="bi bi-plus-circle"></i> Ver comentarios
                 </button>
@@ -140,27 +140,28 @@
 @section Scripts {
 
     <script>
-        $('#CreateComentario').on('show.bs.modal', function (event) {
+
+        $('#CreateComment').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var ticketId = button.data('ticket-id');
 
             $.get('@Url.Action("Create", "Comment")',
                 { ticketId: ticketId },
                 function(data) {
-                    $('#CreateCommentComment').html(data);
+                    $('#CreateCommentContent').html(data);
                 }
             );
 
         });
 
-        $('#IndexComentario').on('show.bs.modal', function (event) {
+        $('#IndexComment').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var ticketId = button.data('ticket-id');
 
             $.get('@Url.Action("Index", "Comment")',
                 { ticketId: ticketId },
                 function(data) {
-                    $('#IndexCommentComment').html(data);
+                    $('#IndexCommentContent').html(data);
                 }
             );
         });
