@@ -99,10 +99,12 @@ namespace HelpDesk.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Description,CreatedDate,UpdatedDate,Category,TicketStatusId,RequesterId,AssignedUserId")] Ticket ticket)
+        public ActionResult Edit([Bind(Include = "TicketStatusId,AssignedUserId")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
+
+                ticket.UpdatedDate= DateTime.Now;
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
