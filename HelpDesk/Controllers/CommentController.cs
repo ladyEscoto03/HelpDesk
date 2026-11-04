@@ -16,10 +16,11 @@ namespace HelpDesk.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Comment
-        public ActionResult Index()
+        public ActionResult Index(int ticketId)
         {
-            var comments = db.Comments.Include(c => c.Ticket).Include(c => c.User);
-            return View(comments.ToList());
+
+            var comments = db.Comments.Include(c => c.Ticket).Include(c => c.User).Where(c=>c.TicketId== ticketId);
+            return PartialView(comments.ToList());
         }
 
         // GET: Comment/Details/5

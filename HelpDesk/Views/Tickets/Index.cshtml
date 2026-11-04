@@ -46,6 +46,33 @@
 </div>
 
 
+
+<div class="modal fade" id="DetailComentario" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow">
+
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">
+                    <i class="bi bi-chat-left-text"></i>
+                    Comentarios
+                </h5>
+
+                <button type="button" class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body p-4" id="contenidoComentarioDetail">
+                <div class="text-center">
+                    <div class="spinner-border text-primary"></div>
+                    <p class="mt-2">Cargando comentarios...</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 <table class="table">
     <tr>
         <th>
@@ -91,15 +118,27 @@
                 @Html.DisplayFor(modelItem => item.TicketStatus.Name)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                <!--
+                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                 @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                -->
                 <button type="button" class="btn btn-primary"
                         data-bs-toggle="modal"
                         data-bs-target="#modalComentario"
                         data-ticket-id="@item.Id">
                     <i class="bi bi-plus-circle"></i> Nuevo comentario
                 </button>
+
+                <button type="button" class="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#DetailComentario"
+                        data-ticket-id="@item.Id">
+                    <i class="bi bi-plus-circle"></i> Ver comentarios
+                </button>
+
+
+
             </td>
         </tr>
     }
@@ -110,18 +149,32 @@
 
     <script>
         $('#modalComentario').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var ticketId = button.data('ticket-id');
 
-    var button = $(event.relatedTarget);
-    var ticketId = button.data('ticket-id');
+            $.get('@Url.Action("Create", "Comment")',
+                { ticketId: ticketId },
+                function (data) {
+                    $('#contenidoComentario').html(data);
+                }
+            );
 
-    $.get('@Url.Action("Create", "Comment")',
-        { ticketId: ticketId },
-        function (data) {
-            $('#contenidoComentario').html(data);
-        }
-    );
+        });
 
-});
+        $('#DetailComentario').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var ticketId = button.data('ticket-id');
+
+            $.get('@Url.Action("Index", "Comment")',
+                { ticketId: ticketId },
+                function(data) {
+                    $('#contenidoComentarioDetail').html(data);
+                }
+            );
+        });
+
+
+
     </script>
 
 }
