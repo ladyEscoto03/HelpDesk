@@ -44,7 +44,7 @@ namespace HelpDesk.Controllers
             ViewBag.AssignedUserId = new SelectList(db.Users, "Id", "Name");
             ViewBag.RequesterId = new SelectList(db.Users, "Id", "Name");
             ViewBag.TicketStatusId = new SelectList(db.Users, "Id", "Name");
-            return View();
+            return PartialView();
         }
 
         // POST: Tickets/Create
@@ -52,7 +52,7 @@ namespace HelpDesk.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Description,Category")] Ticket ticket)
+        public JsonResult Create([Bind(Include = "Id,Title,Description,Category")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
@@ -61,13 +61,14 @@ namespace HelpDesk.Controllers
                 ticket.RequesterId= User.Identity.GetUserId();
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json(new { success = true });
+
             }
 
             ViewBag.AssignedUserId = new SelectList(db.Users, "Id", "Name", ticket.AssignedUserId);
             ViewBag.RequesterId = new SelectList(db.Users, "Id", "Name", ticket.RequesterId);
             ViewBag.TicketStatusId = new SelectList(db.Users, "Id", "Name", ticket.TicketStatusId);
-            return View(ticket);
+            return Json(new { success = false });
         }
 
         // GET: Tickets/Edit/5
@@ -122,33 +123,41 @@ namespace HelpDesk.Controllers
 
 
         [HttpGet]
-        public ActionResult Search(int? id, string texto, string estado)
+        public ActionResult Search(int? id, string text, string status)
         {
             var tickets = db.Tickets
                 .Include(t => t.Requester)
                 .Include(t => t.TicketStatus);
 
-   
             if (id.HasValue)
             {
                 tickets = tickets.Where(t => t.Id == id.Value);
             }
 
-            if (!string.IsNullOrEmpty(texto))
+            if (!string.IsNullOrEmpty(text))
             {
                 tickets = tickets.Where(t =>
-                    t.Title.Contains(texto) ||
-                    t.Description.Contains(texto) ||
-                    t.Requester.Name.Contains(texto));
+                    t.Title.Contains(text) ||
+                    t.Description.Contains(text) ||
+                    t.Requester.Name.Contains(text));
             }
 
-            if (!string.IsNullOrEmpty(estado))
+            if (!string.IsNullOrEmpty(status))
             {
                 tickets = tickets.Where(t =>
-                    t.TicketStatus.Name == estado);
+                    t.TicketStatus.Name == status);
             }
 
             return PartialView("_TablaTickets", tickets.ToList());
+        }
+
+        [HttpGet]
+        public ActionResult RefreshTickets()
+        {
+            var userId = User.Identity.GetUserId();
+            var tickets = db.Tickets.Include(t => t.AssignedUser).Include(t => t.Requester).Include(t => t.TicketStatus).Where(t => t.RequesterId == userId);
+
+            return PartialView("_TablaTickets", tickets);
         }
 
 

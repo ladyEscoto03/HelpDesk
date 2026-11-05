@@ -6,9 +6,44 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<button type="button"
+        class="btn btn-sm btn-dark"
+        data-bs-toggle="modal"
+        data-bs-target="#CreateTicket"
+        title="Crear tiquete">
+    Crear Tiquete
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ticket-perforated-fill" viewBox="0 0 16 16">
+        <path d="M0 4.5A1.5 1.5 0 0 1 1.5 3h13A1.5 1.5 0 0 1 16 4.5V6a.5.5 0 0 1-.5.5 1.5 1.5 0 0 0 0 3 .5.5 0 0 1 .5.5v1.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 11.5V10a.5.5 0 0 1 .5-.5 1.5 1.5 0 1 0 0-3A.5.5 0 0 1 0 6zm4-1v1h1v-1zm1 3v-1H4v1zm7 0v-1h-1v1zm-1-2h1v-1h-1zm-6 3H4v1h1zm7 1v-1h-1v1zm-7 1H4v1h1zm7 1v-1h-1v1zm-8 1v1h1v-1zm7 1h1v-1h-1z" />
+    </svg>
+</button>
+
+
+<div class="modal fade" id="CreateTicket" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow">
+
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">
+                    <i class="bi bi-chat-left-text"></i>
+                    Crear comentario
+                </h5>
+
+                <button type="button" class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body p-4" id="CreateTicketContent">
+                <div class="text-center">
+                    <div class="spinner-border text-primary"></div>
+                    <p class="mt-2">Cargando formulario...</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 
 
 
@@ -93,18 +128,18 @@
 </div>
 
 
-<form id="formBuscar" class="form-control">
+<form id="Search" class="form-control">
 
     <label class="control-label">Ingrese dato a buscar</label>
 
     <input type="text"
-           id="buscarTexto"
+           id="text"
            class="form-control"
            placeholder="Buscar por ID, título, descripción o solicitante..." />
 
     <label class="control-label">Seleccione estado</label>
 
-    <select id="buscarEstado" class="form-control">
+    <select id="status" class="form-control">
         <option value="">Todos</option>
         <option value="Abierto">Abierto</option>
         <option value="Asignado">Asignado</option>
@@ -130,56 +165,99 @@
 
         $(document).ready(function () {
 
-    function buscarTickets() {
+            function searchTickets() {
 
-        var texto = $("#buscarTexto").val();
-        var estado = $("#buscarEstado").val();
-        var id = null;
+                var text = $("#text").val();
+                var status = $("#status").val();
+                var id = null;
 
-        if ($.isNumeric(texto)) {
-            id = parseInt(texto);
-            texto = "";
-        }
 
-        $.ajax({
-            url: '@Url.Action("Search", "Tickets")',
-            type: 'GET',
+                if ($.isNumeric(text)) {
+                    id = parseInt(text);
+                    text = "";
+                }
 
-            data: {
-                id: id,
-                texto: texto,
-                estado: estado
+                $.ajax({
+                    url: '@Url.Action("Search", "Tickets")',
+                    type: 'GET',
+                    data: {
+                        id: id,
+                text: text,
+                status: status
             },
 
-            success: function (resultado) {
+            success: function (result) {
 
-                $("#tablaResultados").html(resultado);
+                $("#tablaResultados").html(result);
 
             },
 
-            error: function (xhr, status, error) {
+            error: function () {
 
-                console.log("Estado:", status);
-                console.log("Error:", error);
-                console.log("Respuesta del servidor:", xhr.responseText);
-
-                alert("Error: " + xhr.status + " - " + error);
+                alert("Ups! Algo salío mal");
 
             }
         });
     }
 
-    // Buscar cuando se escribe
-    $("#buscarTexto").on("keyup", function () {
-        buscarTickets();
-    });
+            $("#text").on("keyup", function () {
+                searchTickets();
+            });
 
-    // Buscar cuando cambia el estado
-    $("#buscarEstado").on("change", function () {
-        buscarTickets();
-    });
 
-});
+            $("#status").on("change", function () {
+                searchTickets();
+            });
+
+        });
+
+
+
+
+
+        $('#CreateTicket').on('show.bs.modal', function (event) {
+
+            $.get('@Url.Action("Create", "Tickets")', function (data) {
+                $('#CreateTicketContent').html(data);
+            });
+        })
+
+
+        $(document).on('submit', '#CreateTicketContent form', function (e) {
+
+            e.preventDefault();
+
+            var form = $(this);
+
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: form.serialize(),
+
+                success: function (response) {
+
+
+                        $('#CreateTicket').modal('hide');
+
+                    $('#CreateTicketContent').html('');
+                    refreshTicketsTable();
+                },
+
+                error: function () {
+                    alert('Error al guardar el tiquete.');
+                }
+            });
+
+        });
+
+
+
+
+
+
+
+
+
 
 
         $('#EditTicket').on('show.bs.modal', function (event) {
@@ -225,7 +303,24 @@
         });
 
 
+     function refreshTicketsTable() {
+
+    $.ajax({
+        url: '@Url.Action("RefreshTickets", "Tickets")',
+        type: 'GET',
+        success: function (result) {
+            $("#tablaResultados").html(result);
+        },
+        error: function () {
+            alert("Ups! Algo salió mal");
+        }
+    });
+
+}
+
+
 
     </script>
 
 }
+
