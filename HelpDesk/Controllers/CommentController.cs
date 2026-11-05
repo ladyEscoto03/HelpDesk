@@ -58,7 +58,7 @@ namespace HelpDesk.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Description,TicketId")] Comment comment)
+        public JsonResult Create([Bind(Include = "Id,Description,TicketId")] Comment comment)
         {
             if (ModelState.IsValid)
             {
@@ -66,12 +66,12 @@ namespace HelpDesk.Controllers
                 comment.CreatedDate = DateTime.Now;
                 db.Comments.Add(comment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json(new { success = true });
             }
 
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", comment.TicketId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "Name", comment.UserId);
-            return View(comment);
+            return Json(new { success = false });
         }
 
         // GET: Comment/Edit/5

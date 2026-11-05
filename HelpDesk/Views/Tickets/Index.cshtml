@@ -310,6 +310,35 @@
 
         });
 
+        $(document).on('submit', '#CreateCommentContent form', function (e) {
+
+            e.preventDefault();
+
+            var form = $(this);
+
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: form.serialize(),
+
+                success: function (response) {
+
+                    $('#CreateComment').modal('hide');
+                    $('#CreateCommentContent').html('');
+                    refreshTicketsTable();
+                },
+                error: function () {
+                    alert('Error al guardar el tiquete.');
+                }
+            });
+
+        });
+
+
+
+
+
+
         $('#IndexComment').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var ticketId = button.data('ticket-id');
@@ -321,6 +350,8 @@
                 }
             );
         });
+
+
 
 
      function refreshTicketsTable() {
