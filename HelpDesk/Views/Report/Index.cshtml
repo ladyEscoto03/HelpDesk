@@ -1,75 +1,71 @@
-﻿@model IEnumerable<HelpDesk.Models.Ticket>
-
+﻿
+@model HelpDesk.Models.ReportViewModel
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Index</h2>
+<h2>Reporte de tickets</h2>
+
+<h3>Tickets por estado</h3>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Estado</th>
+            <th>Cantidad de tickets</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>Abierto</td>
+            <td>@Model.OpenTickets</td>
+        </tr>
+
+        <tr>
+            <td>Asignado</td>
+            <td>@Model.AssignedTickets</td>
+        </tr>
+
+        <tr>
+            <td>En progreso</td>
+            <td>@Model.InProgressTickets</td>
+        </tr>
+
+        <tr>
+            <td>Pendiente</td>
+            <td>@Model.PendingTickets</td>
+        </tr>
+
+        <tr>
+            <td>Resuelto</td>
+            <td>@Model.ResolvedTickets</td>
+        </tr>
+
+        <tr>
+            <td>Cerrado</td>
+            <td>@Model.ClosedTickets</td>
+        </tr>
+
+        <tr>
+            <td>Cancelado</td>
+            <td>@Model.CancelledTickets</td>
+        </tr>
+    </tbody>
+
+    <tfoot>
+        <tr>
+            <th>Total de tickets</th>
+            <th>@Model.TotalTickets</th>
+        </tr>
+    </tfoot>
+</table>
+
+<hr />
+
+<h3>Tiempo promedio de resolución</h3>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Model.AverageResolutionHours.ToString("0.00") horas
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.AssignedUser.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Requester.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TicketStatus.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UpdatedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Category)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.AssignedUser.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Requester.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TicketStatus.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UpdatedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Category)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-
-</table>

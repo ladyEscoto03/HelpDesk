@@ -18,8 +18,46 @@ namespace HelpDesk.Controllers
         public ActionResult Index()
         {
 
-            var tickets = db.Tickets.Include(t => t.AssignedUser).Include(t => t.Requester).Include(t => t.TicketStatus);
-            return View(tickets.ToList());
+
+
+
+            var model = new ReportViewModel();
+
+          
+            model.OpenTickets = db.Tickets.Count(t => t.TicketStatusId == 1);
+
+            model.AssignedTickets = db.Tickets.Count(t => t.TicketStatusId == 2);
+
+            model.InProgressTickets = db.Tickets.Count(t => t.TicketStatusId == 3);
+
+            model.PendingTickets = db.Tickets.Count(t => t.TicketStatusId == 4);
+
+            model.ResolvedTickets = db.Tickets.Count(t => t.TicketStatusId == 5);
+
+            model.ClosedTickets = db.Tickets.Count(t => t.TicketStatusId == 6);
+
+            model.CancelledTickets = db.Tickets.Count(t => t.TicketStatusId == 7);
+
+            // Total de tickets
+            model.TotalTickets = db.Tickets.Count();
+
+            // Tiempo promedio de resolución
+            var resolvedTickets = db.Tickets
+                .Where(t => t.TicketStatusId == 5 && t.UpdatedDate != null)
+                .ToList();
+
+            if (resolvedTickets.Any())
+            {
+                model.AverageResolutionHours = resolvedTickets
+                    .Average(t => (t.UpdatedDate.Value - t.CreatedDate).TotalHours);
+            }
+            else
+            {
+                model.AverageResolutionHours = 0;
+            }
+
+
+            return View(model);
         }
 
 
