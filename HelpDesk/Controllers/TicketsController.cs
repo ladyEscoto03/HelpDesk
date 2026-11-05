@@ -120,6 +120,40 @@ namespace HelpDesk.Controllers
             return View(ticket);
         }
 
+
+        [HttpGet]
+        public ActionResult Search(int? id, string texto, string estado)
+        {
+            var tickets = db.Tickets
+                .Include(t => t.Requester)
+                .Include(t => t.TicketStatus);
+
+   
+            if (id.HasValue)
+            {
+                tickets = tickets.Where(t => t.Id == id.Value);
+            }
+
+            if (!string.IsNullOrEmpty(texto))
+            {
+                tickets = tickets.Where(t =>
+                    t.Title.Contains(texto) ||
+                    t.Description.Contains(texto) ||
+                    t.Requester.Name.Contains(texto));
+            }
+
+            if (!string.IsNullOrEmpty(estado))
+            {
+                tickets = tickets.Where(t =>
+                    t.TicketStatus.Name == estado);
+            }
+
+            return PartialView("_TablaTickets", tickets.ToList());
+        }
+
+
+
+
         // GET: Tickets/Delete/5
         public ActionResult Delete(int? id)
         {

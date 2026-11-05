@@ -93,123 +93,93 @@
 </div>
 
 
-<form class="form-control">
+<form id="formBuscar" class="form-control">
 
-    <label class="control-label col-md-2">Ingrese dato a buscar</label>
+    <label class="control-label">Ingrese dato a buscar</label>
 
-    <input type="text" class="control-label col-md-2" />
+    <input type="text"
+           id="buscarTexto"
+           class="form-control"
+           placeholder="Buscar por ID, título, descripción o solicitante..." />
 
-    <label class="control-label col-md-2">Seleccione estado</label>
+    <label class="control-label">Seleccione estado</label>
 
-    <select>
-        <option>
-            Abierto
-        </option>
-        <option>
-            Asignado
-        </option>
-        <option>
-            En progreso
-        </option>
-        <option>
-            Pendiente
-        </option>
-        <option>
-            Resuelto
-        </option>
-        <option>
-            Cancelado
-        </option>
-        <option>
-            Cerrado
-        </option>
+    <select id="buscarEstado" class="form-control">
+        <option value="">Todos</option>
+        <option value="Abierto">Abierto</option>
+        <option value="Asignado">Asignado</option>
+        <option value="En progreso">En progreso</option>
+        <option value="Pendiente">Pendiente</option>
+        <option value="Resuelto">Resuelto</option>
+        <option value="Cancelado">Cancelado</option>
+        <option value="Cerrado">Cerrado</option>
     </select>
 
 </form>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Requester.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Category)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TicketStatus.Name)
-        </th>
-        <th></th>
-    </tr>
+<hr />
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Requester.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TicketStatus.Name)
-            </td>
-            <td>
-                <!--
-         @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-     @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-    -->
-                <button type="button" class="btn btn-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#CreateComment"
-                        data-ticket-id="@item.Id">
-                    <i class="bi bi-plus-circle"></i> Nuevo comentario
-                </button>
+<div id="tablaResultados">
+    @Html.Partial("_TablaTickets", Model)
+</div>
 
-                <button type="button" class="btn btn-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#IndexComment"
-                        data-ticket-id="@item.Id">
-                    <i class="bi bi-plus-circle"></i> Ver comentarios
-                </button>
-
-                <button type="button" class="btn btn-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#EditTicket"
-                        data-ticket-id="@item.Id">
-                    <i class="bi bi-plus-circle"></i> Editar
-                </button>
-
-                
-
-            </td>
-        </tr>
-    }
-
-</table>
 
 @section Scripts {
 
     <script>
 
+        $(document).ready(function () {
+
+    function buscarTickets() {
+
+        var texto = $("#buscarTexto").val();
+        var estado = $("#buscarEstado").val();
+        var id = null;
+
+        if ($.isNumeric(texto)) {
+            id = parseInt(texto);
+            texto = "";
+        }
+
+        $.ajax({
+            url: '@Url.Action("Search", "Tickets")',
+            type: 'GET',
+
+            data: {
+                id: id,
+                texto: texto,
+                estado: estado
+            },
+
+            success: function (resultado) {
+
+                $("#tablaResultados").html(resultado);
+
+            },
+
+            error: function (xhr, status, error) {
+
+                console.log("Estado:", status);
+                console.log("Error:", error);
+                console.log("Respuesta del servidor:", xhr.responseText);
+
+                alert("Error: " + xhr.status + " - " + error);
+
+            }
+        });
+    }
+
+    // Buscar cuando se escribe
+    $("#buscarTexto").on("keyup", function () {
+        buscarTickets();
+    });
+
+    // Buscar cuando cambia el estado
+    $("#buscarEstado").on("change", function () {
+        buscarTickets();
+    });
+
+});
 
 
         $('#EditTicket').on('show.bs.modal', function (event) {

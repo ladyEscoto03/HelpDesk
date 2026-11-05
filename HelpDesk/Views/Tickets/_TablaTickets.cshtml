@@ -1,0 +1,56 @@
+﻿@model IEnumerable<HelpDesk.Models.Ticket>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Solicitante</th>
+            <th>Título</th>
+            <th>Descripción</th>
+            <th>Fecha de creación</th>
+            <th>Categoría</th>
+            <th>Estado</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Requester.Name</td>
+                <td>@item.Title</td>
+                <td>@item.Description</td>
+                <td>@item.CreatedDate</td>
+                <td>@item.Category</td>
+                <td>@item.TicketStatus.Name</td>
+
+                <td>
+                    <button type="button"
+                            class="btn btn-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#CreateComment"
+                            data-ticket-id="@item.Id">
+                        Nuevo comentario
+                    </button>
+
+                    <button type="button"
+                            class="btn btn-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#IndexComment"
+                            data-ticket-id="@item.Id">
+                        Ver comentarios
+                    </button>
+
+                    <button type="button"
+                            class="btn btn-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#EditTicket"
+                            data-ticket-id="@item.Id">
+                        Editar
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
