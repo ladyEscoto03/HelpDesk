@@ -190,6 +190,7 @@
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ReportViewModel.cs" />
     <Compile Include="Models\Ticket.cs" />
     <Compile Include="Models\TicketStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
