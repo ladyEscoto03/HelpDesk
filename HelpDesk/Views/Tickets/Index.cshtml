@@ -236,24 +236,16 @@
 
                 success: function (response) {
 
-
-                        $('#CreateTicket').modal('hide');
-
+                    $('#CreateTicket').modal('hide');
                     $('#CreateTicketContent').html('');
                     refreshTicketsTable();
                 },
-
                 error: function () {
                     alert('Error al guardar el tiquete.');
                 }
             });
 
         });
-
-
-
-
-
 
 
 
@@ -268,10 +260,36 @@
                 { id: id },
                 function(data) {
                     $('#EditTicketContent').html(data);
+
                 }
             );
 
         });
+
+        $(document).on('submit', '#EditTicketContent form', function (e) {
+
+            e.preventDefault();
+
+            var form = $(this);
+
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: form.serialize(),
+
+                success: function (response) {
+
+                    $('#EditTicket').modal('hide');
+                    $('#EditTicketContent').html('');
+                    refreshTicketsTable();
+                },
+                error: function () {
+                    alert('Error al guardar el tiquete.');
+                }
+            });
+
+        });
+
 
 
 

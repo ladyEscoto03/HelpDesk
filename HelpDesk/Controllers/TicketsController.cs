@@ -101,7 +101,7 @@ namespace HelpDesk.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public ActionResult Edit( Ticket ticket)
+        public JsonResult Edit( Ticket ticket)
         {
             if (ModelState.IsValid)
             {
@@ -113,12 +113,12 @@ namespace HelpDesk.Controllers
                 ticketDb.UpdatedDate = DateTime.Now;
 
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json(new { success = true });
             }
             ViewBag.AssignedUserId = new SelectList(db.Users, "Id", "Name", ticket.AssignedUserId);
             ViewBag.RequesterId = new SelectList(db.Users, "Id", "Name", ticket.RequesterId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusId);
-            return View(ticket);
+            return Json(new { success = false });
         }
 
 
@@ -162,7 +162,7 @@ namespace HelpDesk.Controllers
 
 
 
-
+        /*
         // GET: Tickets/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -197,5 +197,6 @@ namespace HelpDesk.Controllers
             }
             base.Dispose(disposing);
         }
+        */
     }
 }
