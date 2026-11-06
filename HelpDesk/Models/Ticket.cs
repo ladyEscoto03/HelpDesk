@@ -38,6 +38,7 @@ namespace HelpDesk.Models
         [ForeignKey("RequesterId")]
         public ApplicationUser Requester { get; set; }
 
+         [Display(Name = "Usuario asignado")]
         public string AssignedUserId { get; set; }
 
         [ForeignKey("AssignedUserId")]
