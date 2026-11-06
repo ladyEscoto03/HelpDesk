@@ -173,10 +173,14 @@ namespace HelpDesk.Controllers
         [HttpGet]
         public ActionResult RefreshTickets()
         {
-            
+
             var userId = User.Identity.GetUserId();
 
-            var tickets = db.Tickets.Include(t => t.AssignedUser).Include(t => t.Requester).Include(t => t.TicketStatus).Where(t => t.RequesterId == userId);
+            var tickets = db.Tickets
+                .Include(t => t.AssignedUser)
+                .Include(t => t.Requester)
+                .Include(t => t.TicketStatus);
+
             if (User.IsInRole("Cliente"))
             {
                 tickets = tickets.Where(t => t.RequesterId == userId);
