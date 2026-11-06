@@ -4,7 +4,6 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
 
 <button type="button"
         class="btn btn-sm btn-dark"
@@ -18,13 +17,14 @@
 </button>
 
 
+
 <div class="modal fade" id="CreateTicket" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content border-0 shadow">
+        <div class="modal-content border-0 shadow-lg rounded-3">
 
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title">
-                    <i class="bi bi-chat-left-text"></i>
+            <div class="modal-header bg-dark text-white py-3 px-4">
+                <h5 class="modal-title fw-bold">
+                    <i class="bi bi-chat-left-text me-2"></i>
                     Crear comentario
                 </h5>
 
@@ -32,28 +32,27 @@
                         data-bs-dismiss="modal"></button>
             </div>
 
-            <div class="modal-body p-4" id="CreateTicketContent">
-                <div class="text-center">
-                    <div class="spinner-border text-primary"></div>
-                    <p class="mt-2">Cargando formulario...</p>
+            <div class="modal-body p-4 bg-white" id="CreateTicketContent">
+                <div class="text-center py-4">
+                    <div class="spinner-border text-dark"></div>
+                    <p class="mt-3 text-dark fw-semibold">Cargando formulario...</p>
                 </div>
             </div>
 
         </div>
     </div>
 </div>
-
 
 
 
 
 <div class="modal fade" id="CreateComment" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content border-0 shadow">
+        <div class="modal-content border-0 shadow-lg rounded-3">
 
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title">
-                    <i class="bi bi-chat-left-text"></i>
+            <div class="modal-header bg-dark text-white py-3 px-4">
+                <h5 class="modal-title fw-bold">
+                    <i class="bi bi-chat-left-text me-2"></i>
                     Crear comentario
                 </h5>
 
@@ -61,26 +60,27 @@
                         data-bs-dismiss="modal"></button>
             </div>
 
-            <div class="modal-body p-4" id="CreateCommentContent">
-                <div class="text-center">
-                    <div class="spinner-border text-primary"></div>
-                    <p class="mt-2">Cargando formulario...</p>
+            <div class="modal-body p-4 bg-white" id="CreateCommentContent">
+                <div class="text-center py-4">
+                    <div class="spinner-border text-dark"></div>
+                    <p class="mt-3 text-dark fw-semibold">Cargando formulario...</p>
                 </div>
             </div>
 
         </div>
     </div>
 </div>
+
 
 
 
 <div class="modal fade" id="IndexComment" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content border-0 shadow">
+        <div class="modal-content border-0 shadow-lg rounded-3">
 
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title">
-                    <i class="bi bi-chat-left-text"></i>
+            <div class="modal-header bg-dark text-white py-3 px-4">
+                <h5 class="modal-title fw-bold">
+                    <i class="bi bi-chat-left-text me-2"></i>
                     Comentarios
                 </h5>
 
@@ -88,10 +88,10 @@
                         data-bs-dismiss="modal"></button>
             </div>
 
-            <div class="modal-body p-4" id="IndexCommentContent">
-                <div class="text-center">
-                    <div class="spinner-border text-primary"></div>
-                    <p class="mt-2">Cargando comentarios...</p>
+            <div class="modal-body p-4 bg-white" id="IndexCommentContent">
+                <div class="text-center py-4">
+                    <div class="spinner-border text-dark"></div>
+                    <p class="mt-3 text-dark fw-semibold">Cargando comentarios...</p>
                 </div>
             </div>
 
@@ -99,16 +99,13 @@
     </div>
 </div>
 
-
-
-
 <div class="modal fade" id="EditTicket" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content border-0 shadow">
+        <div class="modal-content border-0 shadow-lg rounded-3">
 
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title">
-                    <i class="bi bi-chat-left-text"></i>
+            <div class="modal-header bg-dark text-white py-3 px-4">
+                <h5 class="modal-title fw-bold">
+                    <i class="bi bi-chat-left-text me-2"></i>
                     Comentarios
                 </h5>
 
@@ -116,10 +113,10 @@
                         data-bs-dismiss="modal"></button>
             </div>
 
-            <div class="modal-body p-4" id="EditTicketContent">
-                <div class="text-center">
-                    <div class="spinner-border text-primary"></div>
-                    <p class="mt-2">Cargando...</p>
+            <div class="modal-body p-4 bg-white" id="EditTicketContent">
+                <div class="text-center py-4">
+                    <div class="spinner-border text-dark"></div>
+                    <p class="mt-3 text-dark fw-semibold">Cargando...</p>
                 </div>
             </div>
 
@@ -214,9 +211,6 @@
         });
 
 
-
-
-
         $('#CreateTicket').on('show.bs.modal', function (event) {
 
             $.get('@Url.Action("Create", "Tickets")', function (data) {
@@ -248,10 +242,6 @@
             });
 
         });
-
-
-
-
 
 
         $('#EditTicket').on('show.bs.modal', function (event) {
@@ -293,10 +283,6 @@
         });
 
 
-
-
-
-
         $('#CreateComment').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var ticketId = button.data('ticket-id');
@@ -335,10 +321,6 @@
         });
 
 
-
-
-
-
         $('#IndexComment').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var ticketId = button.data('ticket-id');
@@ -350,8 +332,6 @@
                 }
             );
         });
-
-
 
 
      function refreshTicketsTable() {
