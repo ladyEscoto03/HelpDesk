@@ -4,94 +4,136 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
-
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Ticket</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(m => m.Title)
+    <div class="container mt-4 mb-5">
+
+        <div class="card border-0 shadow-sm rounded-3">
+
+            <div class="card-body p-4 p-md-5">
+
+                <div class="mb-4">
+                    <h3 class="fw-bold text-dark mb-1">Detalles del Ticket</h3>
+                    <p class="text-muted mb-0">Información general y seguimiento del ticket.</p>
+                </div>
+
+                <hr class="text-secondary opacity-25 mb-4" />
+
+                <div class="form-horizontal">
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Id)
+
+                    <div class="mb-4">
+                        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "form-label fw-bold text-dark" })
+                        <div class="form-control bg-light border-0 py-2">
+                            @Html.DisplayFor(m => m.Title)
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "form-label fw-bold text-dark" })
+                        <div class="form-control bg-light border-0 py-3" style="min-height: 100px;">
+                            @Html.DisplayFor(m => m.Description)
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+
+                        <div class="col-md-6 mb-3">
+                            @Html.LabelFor(model => model.CreatedDate, htmlAttributes: new { @class = "form-label fw-bold text-dark" })
+                            <div class="form-control bg-light border-0">
+                                @Html.DisplayFor(m => m.CreatedDate)
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            @Html.LabelFor(model => model.UpdatedDate, htmlAttributes: new { @class = "form-label fw-bold text-dark" })
+                            <div class="form-control bg-light border-0">
+                                @Html.DisplayFor(m => m.UpdatedDate)
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="mb-4">
+                        @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "form-label fw-bold text-dark" })
+                        <div class="form-control bg-light border-0">
+                            @Html.DisplayFor(m => m.Category)
+                        </div>
+                    </div>
+
+                    <hr class="text-secondary opacity-25 my-4" />
+
+                    <div class="mb-4">
+
+                        <h5 class="fw-bold text-dark mb-3">
+                            Comentarios
+                        </h5>
+
+                        <div class="d-flex flex-column gap-3">
+
+                            @foreach (var comment in ViewBag.Comments)
+                            {
+                                <div class="card border rounded-3 bg-light">
+                                    <div class="card-body p-3">
+                                        <p class="text-dark mb-0 lh-lg">
+                                            @comment.Description
+                                        </p>
+                                        <p class="text-dark mb-0 lh-lg">
+                                           Comentario de: @comment.User.Name
+                                        </p>
+
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+
+                    </div>
+
+                    <hr class="text-secondary opacity-25 my-4" />
+
+                    <div class="mb-4">
+
+                        <h5 class="fw-bold text-dark mb-3">
+                            Actualizar información
+                        </h5>
+
+                        <div class="mb-4">
+                            @Html.LabelFor(model => model.TicketStatusId, "Estado", htmlAttributes: new { @class = "form-label fw-bold text-dark" })
+
+                            @Html.DropDownList("TicketStatusId", null, "Seleccione un estado", htmlAttributes: new { @class = "form-select py-2" })
+
+                            @Html.ValidationMessageFor(model => model.TicketStatusId, "", new { @class = "text-danger small" })
+                        </div>
+
+                        <div class="mb-4">
+                            @Html.LabelFor(model => model.AssignedUserId, "AssignedUserId", htmlAttributes: new { @class = "form-label fw-bold text-dark" })
+
+                            @Html.DropDownList("AssignedUserId", null, "-- Sin asignar --", htmlAttributes: new { @class = "form-select py-2" })
+
+                            @Html.ValidationMessageFor(model => model.AssignedUserId, "", new { @class = "text-danger small" })
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex justify-content-end pt-3 border-top">
+                        <input type="submit" value="Guardar cambios" class="btn btn-dark px-4 py-2 rounded-3" />
+                    </div>
+
+                </div>
+
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(m => m.Description)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CreatedDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(m => m.CreatedDate)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.UpdatedDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(m => m.UpdatedDate)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(m => m.Category)
-            </div>
-        </div>
-
-        <div class="form-group">
-
-            @foreach (var comment in ViewBag.Comments)
-            {
-                <p>@comment.Description</p>
-            }
-
-        </div>
-
-
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TicketStatusId, "Estado", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("TicketStatusId", null,"Seleccione un estado", htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.TicketStatusId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-      
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.AssignedUserId, "AssignedUserId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("AssignedUserId", null,"-- Sin asignar --", htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.AssignedUserId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

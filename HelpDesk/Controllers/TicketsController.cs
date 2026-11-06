@@ -89,7 +89,7 @@ namespace HelpDesk.Controllers
 
 
 
-            ViewBag.Comments = db.Comments.Where(c => c.TicketId == id).ToList();
+            ViewBag.Comments = db.Comments.Include(c => c.User).Where(c => c.TicketId == id).ToList();
 
 
             return PartialView(ticket);
