@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 
 namespace HelpDesk.Controllers
 {
+    [Authorize]
     public class TicketsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -19,7 +20,17 @@ namespace HelpDesk.Controllers
         public ActionResult Index()
         {
             var userId = User.Identity.GetUserId();
-            var tickets = db.Tickets.Include(t => t.AssignedUser).Include(t => t.Requester).Include(t => t.TicketStatus).Where(t=>t.RequesterId==userId);
+
+            var tickets = db.Tickets
+                .Include(t => t.AssignedUser)
+                .Include(t => t.Requester)
+                .Include(t => t.TicketStatus);
+
+            if (User.IsInRole("Cliente"))
+            {
+                tickets = tickets.Where(t => t.RequesterId == userId);
+            }
+
             return View(tickets.ToList());
         }
 
@@ -125,15 +136,20 @@ namespace HelpDesk.Controllers
         [HttpGet]
         public ActionResult Search(int? id, string text, string status)
         {
+            var userId = User.Identity.GetUserId();
+
             var tickets = db.Tickets
                 .Include(t => t.Requester)
                 .Include(t => t.TicketStatus);
 
+            if (User.IsInRole("Cliente"))
+            {
+                tickets = tickets.Where(t => t.RequesterId == userId);
+            }
             if (id.HasValue)
             {
                 tickets = tickets.Where(t => t.Id == id.Value);
             }
-
             if (!string.IsNullOrEmpty(text))
             {
                 tickets = tickets.Where(t =>
