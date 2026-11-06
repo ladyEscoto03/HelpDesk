@@ -95,7 +95,9 @@ namespace HelpDesk.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AssignedUserId = new SelectList(db.Users, "Id", "Name", ticket.AssignedUserId);
+            ViewBag.AssignedUserId = new SelectList(db.Users.Where(u => u.Roles.Any(r => r.RoleId == db.Roles.FirstOrDefault(x => x.Name == "Empleado").Id ||
+            r.RoleId == db.Roles.FirstOrDefault(x => x.Name == "Administrador").Id
+            )), "Id", "Name", ticket.AssignedUserId);
             ViewBag.RequesterId = new SelectList(db.Users, "Id", "Name", ticket.RequesterId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusId);
 
