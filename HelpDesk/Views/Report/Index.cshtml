@@ -4,68 +4,94 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-<h2>Reporte de tickets</h2>
+<h2 class="mb-4 fw-bold text-primary">Reporte de tickets</h2>
 
-<h3>Tickets por estado</h3>
+<h3 class="h5 fw-bold mb-3 text-dark">Tickets por estado</h3>
 
-<table class="table table-bordered table-striped">
-    <thead>
+<table class="table table-bordered table-striped table-hover align-middle shadow-sm">
+    <thead class="table-dark">
         <tr>
-            <th>Estado</th>
-            <th>Cantidad de tickets</th>
+            <th class="py-3">Estado</th>
+            <th class="py-3 text-center">Cantidad de tickets</th>
         </tr>
     </thead>
 
     <tbody>
         <tr>
-            <td>Abierto</td>
-            <td>@Model.OpenTickets</td>
+            <td class="fw-semibold">
+                <span class="badge bg-primary me-2"> </span>
+                Abierto
+            </td>
+            <td class="text-center fw-semibold">@Model.OpenTickets</td>
         </tr>
 
         <tr>
-            <td>Asignado</td>
-            <td>@Model.AssignedTickets</td>
+            <td class="fw-semibold">
+                <span class="badge bg-info me-2"> </span>
+                Asignado
+            </td>
+            <td class="text-center fw-semibold">@Model.AssignedTickets</td>
         </tr>
 
         <tr>
-            <td>En progreso</td>
-            <td>@Model.InProgressTickets</td>
+            <td class="fw-semibold">
+                <span class="badge bg-warning me-2"> </span>
+                En progreso
+            </td>
+            <td class="text-center fw-semibold">@Model.InProgressTickets</td>
         </tr>
 
         <tr>
-            <td>Pendiente</td>
-            <td>@Model.PendingTickets</td>
+            <td class="fw-semibold">
+                <span class="badge bg-secondary me-2"> </span>
+                Pendiente
+            </td>
+            <td class="text-center fw-semibold">@Model.PendingTickets</td>
         </tr>
 
         <tr>
-            <td>Resuelto</td>
-            <td>@Model.ResolvedTickets</td>
+            <td class="fw-semibold">
+                <span class="badge bg-success me-2"> </span>
+                Resuelto
+            </td>
+            <td class="text-center fw-semibold">@Model.ResolvedTickets</td>
         </tr>
 
         <tr>
-            <td>Cerrado</td>
-            <td>@Model.ClosedTickets</td>
+            <td class="fw-semibold">
+                <span class="badge bg-dark me-2"> </span>
+                Cerrado
+            </td>
+            <td class="text-center fw-semibold">@Model.ClosedTickets</td>
         </tr>
 
         <tr>
-            <td>Cancelado</td>
-            <td>@Model.CancelledTickets</td>
+            <td class="fw-semibold">
+                <span class="badge bg-danger me-2"> </span>
+                Cancelado
+            </td>
+            <td class="text-center fw-semibold">@Model.CancelledTickets</td>
         </tr>
     </tbody>
 
-    <tfoot>
+    <tfoot class="table-primary">
         <tr>
-            <th>Total de tickets</th>
-            <th>@Model.TotalTickets</th>
+            <th class="py-3">Total de tickets</th>
+            <th class="py-3 text-center fw-bold">@Model.TotalTickets</th>
         </tr>
     </tfoot>
 </table>
 
-<hr />
+<hr class="my-4 text-secondary" />
 
-<h3>Tiempo promedio de resolución</h3>
+<h3 class="h5 fw-bold mb-3 text-dark">Tiempo promedio de resolución</h3>
 
-<p>
-    @Model.AverageResolutionHours.ToString("0.00") horas
+<p class="bg-light border rounded-3 shadow-sm p-4 mb-0">
+    <span class="d-block text-secondary small fw-semibold mb-2">
+        PROMEDIO DE RESOLUCIÓN
+    </span>
+    <span class="display-6 fw-bold text-primary">
+        @Model.AverageResolutionHours.ToString("0.00")
+    </span>
+    <span class="text-secondary fw-semibold">horas</span>
 </p>
