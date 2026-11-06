@@ -10,16 +10,15 @@ using HelpDesk.Models;
 
 namespace HelpDesk.Controllers
 {
+    [Authorize]
     public class ReportController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        [Authorize(Roles = "Administrador")]
         // GET: Report
         public ActionResult Index()
         {
-
-
-
 
             var model = new ReportViewModel();
 

@@ -24,10 +24,10 @@
 
 
             context.Roles.AddOrUpdate(r => r.Name,
-                new IdentityRole { Name = "Administrador" },
-                 new IdentityRole { Name = "Cliente" },
-                  new IdentityRole { Name = "Empleado" }
-             );
+      new IdentityRole { Name = "Administrador" },
+      new IdentityRole { Name = "Cliente" },
+      new IdentityRole { Name = "Empleado" }
+  );
 
             context.TicketStatuses.AddOrUpdate(s => s.Name,
                 new Models.TicketStatus { Name = "Abierto" },
@@ -39,7 +39,13 @@
                 new Models.TicketStatus { Name = "Cancelado" }
             );
 
-            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            context.SaveChanges();
+
+            var userManager = new UserManager<ApplicationUser>(
+                new UserStore<ApplicationUser>(context)
+            );
+
+      
             var userAdmin = new ApplicationUser
             {
                 UserName = "finn@gmail.com",
@@ -49,10 +55,12 @@
                 IsActive = true
             };
 
-            userManager.Create(userAdmin, "Finn123.");
+            var resultAdmin = userManager.Create(userAdmin, "Finn123.");
 
-            userManager.AddToRole(userAdmin.Id, "Administrador");
-
+            if (resultAdmin.Succeeded)
+            {
+                userManager.AddToRole(userAdmin.Id, "Administrador");
+            }
 
             var userEmployee = new ApplicationUser
             {
@@ -63,9 +71,12 @@
                 IsActive = true
             };
 
-            userManager.Create(userAdmin, "Abadeer123.");
+            var resultEmployee = userManager.Create(userEmployee, "Abadeer123.");
 
-            userManager.AddToRole(userAdmin.Id, "Empleado");
+            if (resultEmployee.Succeeded)
+            {
+                userManager.AddToRole(userEmployee.Id, "Empleado");
+            }
 
 
         }

@@ -83,6 +83,7 @@ namespace HelpDesk.Controllers
         }
 
         // GET: Tickets/Edit/5
+        [Authorize(Roles = "Administrador")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -111,7 +112,7 @@ namespace HelpDesk.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-
+        [Authorize(Roles = "Administrador")]
         public JsonResult Edit( Ticket ticket)
         {
             if (ModelState.IsValid)
@@ -170,9 +171,14 @@ namespace HelpDesk.Controllers
         [HttpGet]
         public ActionResult RefreshTickets()
         {
+            
             var userId = User.Identity.GetUserId();
-            var tickets = db.Tickets.Include(t => t.AssignedUser).Include(t => t.Requester).Include(t => t.TicketStatus).Where(t => t.RequesterId == userId);
 
+            var tickets = db.Tickets.Include(t => t.AssignedUser).Include(t => t.Requester).Include(t => t.TicketStatus).Where(t => t.RequesterId == userId);
+            if (User.IsInRole("Cliente"))
+            {
+                tickets = tickets.Where(t => t.RequesterId == userId);
+            }
             return PartialView("_TablaTickets", tickets);
         }
 
