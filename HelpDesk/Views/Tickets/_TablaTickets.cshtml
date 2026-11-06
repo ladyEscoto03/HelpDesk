@@ -12,6 +12,7 @@
                 <th>Descripción</th>
                 <th>Fecha de creación</th>
                 <th>Categoría</th>
+                <th>Técnico asignado</th>
                 <th>Estado</th>
                 <th>Acciones</th>
             </tr>
@@ -33,6 +34,11 @@
                     <td>
                         <span class="badge bg-info text-dark">
                             @item.Category
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge bg-info text-dark">
+                            @(item.AssignedUser?.Name ?? "Aún no asignado")
                         </span>
                     </td>
                     <td>
