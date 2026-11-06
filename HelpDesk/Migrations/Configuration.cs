@@ -1,5 +1,7 @@
 ﻿namespace HelpDesk.Migrations
 {
+    using HelpDesk.Models;
+    using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using System;
     using System.Data.Entity;
@@ -36,6 +38,34 @@
                 new Models.TicketStatus { Name = "Cerrado" },
                 new Models.TicketStatus { Name = "Cancelado" }
             );
+
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            var userAdmin = new ApplicationUser
+            {
+                UserName = "finn@gmail.com",
+                Email = "finn@gmail.com",
+                Name = "Finn Mertens",
+                CreatedAt = DateTime.Now,
+                IsActive = true
+            };
+
+            userManager.Create(userAdmin, "Finn123.");
+
+            userManager.AddToRole(userAdmin.Id, "Administrador");
+
+
+            var userEmployee = new ApplicationUser
+            {
+                UserName = "abadeer@gmail.com",
+                Email = "abadeer@gmail.com",
+                Name = "Hunson Abadeer",
+                CreatedAt = DateTime.Now,
+                IsActive = true
+            };
+
+            userManager.Create(userAdmin, "Abadeer123.");
+
+            userManager.AddToRole(userAdmin.Id, "Empleado");
 
 
         }
